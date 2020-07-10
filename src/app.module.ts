@@ -17,7 +17,7 @@ import {BcryptFacade} from './authentication/bcrypt.facade';
     pass: 'rootpassword'
   }), UsersModule, AuthenticationModule],
   controllers: [AppController, UsersController, AuthenticationController],
-  providers: [AppService, AuthenticationService, {
+  providers: [AppService, {
     provide: 'BCRYPT',
     useFactory: () => {return new BcryptFacade()}
   }],

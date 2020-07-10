@@ -4,15 +4,21 @@ import { UsersService } from '../users/users.service';
 import { CredentialsDTO } from './credentials.dto';
 import { UserDTO } from '../users/user.dto';
 import * as bcryptjs from 'bcryptjs';
+import { JwtService } from '@nestjs/jwt';
+
+
+
 
 export interface Bcrypt {
     compare: (s: string, hash: string) => string;
-}
+} 
 
 @Injectable()
 export class AuthenticationService {
 
-    constructor(private readonly usersService: UsersService, @Inject('BCRYPT') private bcryptjs: Bcrypt){
+    constructor(private readonly usersService: UsersService, 
+        @Inject('BCRYPT') private bcryptjs: Bcrypt,
+        private jwtService: JwtService){ 
     }
 
     async login(creditialsDTO: CredentialsDTO): Promise<any> {
@@ -24,7 +30,7 @@ export class AuthenticationService {
                     throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST); 
                 }
                 
-                return user;
+                return {token: this.jwtService.sign({userId: user.id, username: user.username}) }
             }else {
                 throw new HttpException("user not found", HttpStatus.UNAUTHORIZED);
             }

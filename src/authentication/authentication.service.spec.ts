@@ -7,6 +7,9 @@ import { UserDTO } from '../users/user.dto';
 import { CredentialsDTO } from './credentials.dto';
 import { Logger, HttpException, HttpStatus } from '@nestjs/common';
 import bcryptjs from 'bcryptjs';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './constants';
 
 
 const userFails: UserDTO = {
@@ -37,10 +40,17 @@ const mockBcryptModule =({
   compare: jest.fn().mockImplementation((s: string, hash: string) => Promise.resolve(true))
 });
 
+const fake_token = 'asdiasdjsaidjsaidj'
+
+const mockJwt = ({
+  sign: jest.fn().mockImplementation((payload: any) => {return fake_token})
+})
+
 const credentials : CredentialsDTO = {
   username: 'jose',
   password: '1234'
 }
+
 
 
 
@@ -50,6 +60,11 @@ describe('AuthenticationService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [PassportModule.register({ defaultStrategy: 'jwt' }), 
+      JwtModule.register({
+          secret: jwtConstants.secret,
+          signOptions: { expiresIn: '7d' },
+        })],
       providers: [AuthenticationService, UsersService,
       {
         provide: getModelToken(User.name),
@@ -62,7 +77,11 @@ describe('AuthenticationService', () => {
       {
         provide: 'BCRYPT',
         useValue: mockBcryptModule
-      }, 
+      },
+      {
+        provide: JwtService,
+        useValue: mockJwt
+      } 
     ],
     }).compile();
 
@@ -81,7 +100,6 @@ describe('AuthenticationService', () => {
         const a = await service.login(credentials);
         expect(mockUserService.findByUsername).toBeCalledTimes(1);
         expect(mockBcryptModule.compare).toBeCalledTimes(1);
-        expect(a).toEqual(userFails.username);
     })
 
     it("should call register method and will must fail", async() => {
@@ -95,4 +113,11 @@ describe('AuthenticationService', () => {
         .rejects
         .toThrowError('username is already taken'); 
     }); 
+
+    it('should sign in a user', async() => {
+        const sign = await service.login(credentials);
+        expect(mockBcryptModule.compare).toBeCalledTimes(1);
+        expect(mockJwt.sign).toBeCalledTimes(1);
+        expect(sign).toEqual({token: fake_token})
+    }) 
 });
