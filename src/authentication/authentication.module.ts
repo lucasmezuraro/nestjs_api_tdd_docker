@@ -9,10 +9,12 @@ import { JwtStrategy } from './jwt.strategy';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { PassportModule } from '@nestjs/passport';
+import { BcryptModule } from '../providers/bcrypt/bcrypt.module';
 
 @Module({
     imports: [
             UsersModule,
+            BcryptModule,
             MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
             PassportModule.register({ defaultStrategy: 'jwt' }), 
             JwtModule.register({
@@ -21,10 +23,7 @@ import { PassportModule } from '@nestjs/passport';
               })],
     providers:[
         AuthenticationService,
-        UsersService, {
-            provide: 'BCRYPT',
-            useFactory: () => {return new BcryptFacade()}
-        }, JwtStrategy],
+        UsersService, BcryptFacade, JwtStrategy],
     exports: [AuthenticationService]
 })
 export class AuthenticationModule {}
