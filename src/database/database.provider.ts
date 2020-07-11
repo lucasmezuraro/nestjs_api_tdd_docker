@@ -15,7 +15,7 @@ const options: MongooseModuleAsyncOptions = {
 export const databaseProvider = [
     MongooseModule.forRootAsync({imports: [ConfigModule],
     useFactory : async(config: ConfigService) => ({
-        ...config.data()
+       uri: `mongodb://${config.connection().user}:${config.connection().pass}@${config.connection().host}:${config.connection().port}/${config.connection().db_name}?authSource=admin`
     }),
     inject:[ConfigService]})
 ]

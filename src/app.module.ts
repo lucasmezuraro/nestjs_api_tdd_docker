@@ -7,13 +7,10 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationController } from './authentication/authentication.controller';
 import { AuthenticationModule } from './authentication/authentication.module';
 import {BcryptFacade} from './authentication/bcrypt.facade';
-
+import { DatabaseModule } from './database/database.module';
+ 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://db:27017/pizz_finder_api', {
-    authSource: 'admin',
-    user: 'root',
-    pass: 'rootpassword'
-  }), UsersModule, AuthenticationModule],
+  imports: [DatabaseModule, UsersModule, AuthenticationModule],
   controllers: [AppController, UsersController, AuthenticationController],
   providers: [AppService, {
     provide: 'BCRYPT',

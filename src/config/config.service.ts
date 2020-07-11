@@ -2,19 +2,16 @@ import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import configConstants from './config.constants';
 import { Injectable } from '@nestjs/common';
-import { MongooseModuleAsyncOptions, MongooseModuleOptions } from '@nestjs/mongoose';
-import { ConnectionOptions } from 'mongoose';
 
 @Injectable()
 export class ConfigService {
-  MONGODB_URI: string;
   private readonly envConfig: { database: {
         uri?: string, 
        connection?: { 
            pass?: string,
            port?: string, 
            user?: string, 
-           database?: string
+           db_name?: string
         }
      },
     port?: string};
@@ -38,13 +35,21 @@ export class ConfigService {
     return this.envConfig[key];
   }
 
-   data(): MongooseModuleOptions {
+   connection(): {
+     host: string,
+     pass: string,
+     user: string,
+     port: string,
+     db_name: string
+   } {
       return {
-          authSource: 'true',
-          user: this.envConfig.database.connection.user,
+          host: this.envConfig.database.uri,
           pass: this.envConfig.database.connection.pass,
-          uri: this.envConfig.database.uri
+          user: this.envConfig.database.connection.user,
+          port: this.envConfig.database.connection.port,
+          db_name: this.envConfig.database.connection.db_name
       }
+      
   } 
 
   
