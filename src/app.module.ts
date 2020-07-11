@@ -2,13 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://db:27017/pizz_finder_api', {
-    authSource: 'admin',
-    user: 'root',
-    pass: 'rootpassword'
-  })],
+  imports: [DatabaseModule],
   controllers: [AppController],
   providers: [AppService],
 })
