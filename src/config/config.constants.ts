@@ -11,7 +11,7 @@ export default () => ({
         pass: process.env.DATABASE_PASS || '',
         user: process.env.DATABASE_USER || '',
         db_name: process.env.DATABASE_NAME || '',
-        authSource: true
+        authSource: 'admin'
       }
       
     }
