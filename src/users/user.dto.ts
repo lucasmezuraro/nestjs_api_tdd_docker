@@ -1,4 +1,4 @@
-import {IsString} from 'class-validator';
+import {IsString, IsOptional, IsObject} from 'class-validator';
 
 
 export class UserDTO {
@@ -11,4 +11,10 @@ export class UserDTO {
 
     @IsString()
     password: string;
+
+    @IsString()
+    @IsOptional()
+    type?: string;
+
+    
 }

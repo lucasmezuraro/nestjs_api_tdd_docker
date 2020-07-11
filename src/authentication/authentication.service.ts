@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { Injectable, HttpException, HttpStatus, Body, Logger, Inject } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger, Inject } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CredentialsDTO } from './credentials.dto';
 import { UserDTO } from '../users/user.dto';
-import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { RegistationFacade } from './registrationFacade/registration.facade';
 
 
 
@@ -41,12 +41,13 @@ export class AuthenticationService {
 
     async register(userDTO: UserDTO): Promise<any> {
         
-        const user = await this.usersService.findByUsername(userDTO.username)
+       /*  const user = await this.usersService.findByUsername(userDTO.username)
         if (!user) {
-            return await this.usersService.create(userDTO);
-        }
-        
-        throw new HttpException('username is already taken', HttpStatus.BAD_REQUEST)
+            return await this.usersService.create(userDTO); 
+        } */
+
+        return new RegistationFacade(userDTO).create();
+        //throw new HttpException('username is already taken', HttpStatus.BAD_REQUEST)
         
     }
 }

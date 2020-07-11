@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export default () => ({ 
-    port: process.env.PORT || '3010',
+    port: process.env.PORT || '3000',
     database: {
       uri: process.env.DATABASE_HOST,
       connection: {
