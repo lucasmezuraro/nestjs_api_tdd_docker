@@ -8,10 +8,13 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import {BcryptFacade} from './authentication/bcrypt.facade';
 import { DatabaseModule } from './database/database.module';
 import { BcryptModule } from './providers/bcrypt/bcrypt.module';
+import { AddressService } from './address/address.service';
+import { AddressController } from './address/address.controller';
+import { AddressModule } from './address/address.module';
  
 @Module({
-  imports: [DatabaseModule, UsersModule, AuthenticationModule, BcryptModule],
-  controllers: [AppController, UsersController, AuthenticationController],
-  providers: [AppService, BcryptFacade],
+  imports: [DatabaseModule, UsersModule, AuthenticationModule, BcryptModule, AddressModule, AddressService],
+  controllers: [AppController, UsersController, AuthenticationController, AddressController, AddressController],
+  providers: [AppService, BcryptFacade, AddressService],
 })
 export class AppModule {}
