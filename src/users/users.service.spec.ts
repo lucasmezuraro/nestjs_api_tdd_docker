@@ -3,15 +3,10 @@ import { UsersService } from './users.service';
 import { UserDTO } from './user.dto';
 import { getModelToken } from '@nestjs/mongoose';
 import { User } from '../models/User.schema';
-
-const mockUserRepo = ({
-  find: jest.fn().mockImplementation(() => {Promise.resolve([])}),
-  create: jest.fn().mockImplementation((user: UserDTO) => {Promise.resolve(user)}),
-  hash: jest.fn().mockResolvedValue("abc")
-})
+import { mockUserRepo } from '../__mocks__/repositories/user.repository.mock';
 
 const user: UserDTO = {
-  username: 'lucas',
+  username: 'lucas354',
   email: "lucas@gmail.com",
   password: "1234"
 }
@@ -39,9 +34,8 @@ describe('UsersService', () => {
        expect(mockUserRepo.find).toBeCalledTimes(1);
     });
 
-    it('must create a user', async () => {
+  it('must create a user', async () => {
         const createUser = await service.create(user)
         expect(mockUserRepo.create).toBeCalledTimes(1);
-
     });
 });

@@ -1,12 +1,12 @@
 import { Registration } from "../registration";
-import { UserDTO } from "src/users/user.dto";
-import { UsersService } from "src/users/users.service";
+import { UserDTO } from "../../../users/user.dto";
+import { UsersService } from "../../../users/users.service";
 
 export class CompanyStrategy implements Registration {
 
-    constructor(private readonly userCreateDTO: UserDTO) {}
+    constructor(private readonly userCreateDTO: UserDTO, private readonly usersService: UsersService) {}
 
-    async save(usersService: UsersService): Promise<any> {
+    async save(): Promise<any> {
         return await 'company registrated';
     }
 }

@@ -18,6 +18,7 @@ export class AuthenticationService {
 
     constructor(private readonly usersService: UsersService, 
         @Inject('BCRYPT') private bcryptjs: Bcrypt,
+        @Inject('REGISTRATION_FACADE') private readonly registrationFacade: RegistationFacade,
         private jwtService: JwtService){ 
     }
 
@@ -40,6 +41,6 @@ export class AuthenticationService {
     }
 
     async register(userDTO: UserDTO): Promise<any> {
-        return new RegistationFacade(userDTO).create(this.usersService);        
+        return this.registrationFacade.create(userDTO);        
     }
 }

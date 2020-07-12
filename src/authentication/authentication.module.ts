@@ -10,11 +10,13 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { PassportModule } from '@nestjs/passport';
 import { BcryptModule } from '../providers/bcrypt/bcrypt.module';
+import { RegistrationFacadeModule } from 'src/providers/registrationFacade/registration.facade.module';
 
 @Module({
     imports: [
             UsersModule,
             BcryptModule,
+            RegistrationFacadeModule,
             MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
             PassportModule.register({ defaultStrategy: 'jwt' }), 
             JwtModule.register({
