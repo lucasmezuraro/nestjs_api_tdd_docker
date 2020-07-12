@@ -1,5 +1,6 @@
+import { UsersService } from "src/users/users.service";
 
 
 export interface Registration {
-    save(): string;
+    save(usersService: UsersService): Promise<any>;
 }

@@ -6,17 +6,17 @@ import { Address, AddressSchema } from "./Address.schema";
 @Schema()
 export class User extends Document {
 
-    @Prop({type: 'string', required: 'true'})
+    @Prop({type: 'string', required: true,unique: true, index: true})
     username: string;
 
-    @Prop({type: 'string', required: 'true'})
+    @Prop({type: 'string', required: true, unique: true, index: true})
     email: string;
 
-    @Prop({type: 'string', required: 'true'})
+    @Prop({type: 'string', required: true})
     password: string;
 
-    @Prop({type: SchemaTypes.ObjectId, required: 'true'})
-    addressId?: string
+    /* @Prop({type: SchemaTypes.ObjectId, required: 'false'})
+    addressId?: Address */
 
 }
 

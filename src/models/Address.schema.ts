@@ -17,6 +17,9 @@ export class Address extends Document {
     state: string;
 
     @Prop({type: 'string', required: 'true'})
+    neighborhood: string;
+
+    @Prop({type: 'string', required: 'true'})
     zipCode: string;
 }
 

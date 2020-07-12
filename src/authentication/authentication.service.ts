@@ -40,14 +40,6 @@ export class AuthenticationService {
     }
 
     async register(userDTO: UserDTO): Promise<any> {
-        
-       /*  const user = await this.usersService.findByUsername(userDTO.username)
-        if (!user) {
-            return await this.usersService.create(userDTO); 
-        } */
-
-        return new RegistationFacade(userDTO).create();
-        //throw new HttpException('username is already taken', HttpStatus.BAD_REQUEST)
-        
+        return new RegistationFacade(userDTO).create(this.usersService);        
     }
 }

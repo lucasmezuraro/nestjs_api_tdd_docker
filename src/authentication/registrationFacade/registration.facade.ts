@@ -6,6 +6,7 @@ import { EmployeeStrategy } from "./strategies/employee.strategy";
 import { CompanyStrategy } from "./strategies/company.strategy";
 import { CustomerStrategy } from "./strategies/customer.strategy";
 import { Registration } from "./registration";
+import { UsersService } from "src/users/users.service";
 
 export class RegistationFacade {
 
@@ -14,14 +15,15 @@ export class RegistationFacade {
 
     constructor(private readonly userCreateDTO: UserDTO) {
         this.registrationFactory =  new RegistrationFactory(userCreateDTO);
-        const type: Registration = this.registrationFactory.getInstance();
-        console.log(type);
-        this.registrationContext = new RegistrationContext(type);
+        this.registrationContext = new RegistrationContext(this.registrationFactory.getInstance());
     }
 
-    create(): any {
-        new Logger('SHOW').log(this.registrationContext.save());
-        return this.registrationContext.save();
+    create(usersService: UsersService): any {
+        try {
+            return this.registrationContext.save(usersService);
+        }catch(err) {
+            new Logger('Logg eerr').log(err);
+        }
     }
 
 
