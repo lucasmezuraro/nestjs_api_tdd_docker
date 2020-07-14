@@ -15,8 +15,8 @@ export class User extends Document {
     @Prop({type: 'string', required: true})
     password: string;
 
-    /* @Prop({type: SchemaTypes.ObjectId, required: 'false'})
-    addressId?: Address */
+    @Prop({type: SchemaTypes.ObjectId, required: 'false'})
+    addressId?: string
 
 }
 

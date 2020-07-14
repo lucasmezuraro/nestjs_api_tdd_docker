@@ -56,9 +56,9 @@ describe('AuthenticationService', () => {
         expect(mockJwt.sign).toBeCalledTimes(1);
         expect(sign).toEqual({token: fake_token})
     })
-    
-      it('should return a user create, when registration facade finish',async () => {
+
+  it('should return a user create, when registration facade finish',async () => {
         const facade = await service.register(userSuccessful);
         expect(mockRegistrationFacade.create).toBeCalledTimes(1);
-      });
+    });
 });
